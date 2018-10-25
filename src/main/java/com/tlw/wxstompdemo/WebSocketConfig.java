@@ -17,11 +17,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         // 这句话表示在topic和user这两个域上可以向客户端发消息。
+		// 注意!!!: 微信中这里必须是/user，客户端订阅点对点消息是/user/{openid}/message
         config.enableSimpleBroker("/topic", "/user");
         // 这句话表示客户单向服务器端发送时的主题上面需要加"/app"作为前缀。
-        config.setApplicationDestinationPrefixes("/app");
+//        config.setApplicationDestinationPrefixes("/app");
         // 这句话表示给指定用户发送一对一的主题前缀是"/user"。
-        config.setUserDestinationPrefix("/user");
+//        config.setUserDestinationPrefix("/user");
     }
 
     /**
@@ -35,7 +36,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
          * 在网页上可以通过"/gs-guide-websocket"来和服务器的WebSocket连接
          *这个和客户端创建连接时的url有关，其中setAllowedOrigins()方法表示允许连接的域名，withSockJS()方法表示支持以SockJS方式连接服务器。
          */
-        registry.addEndpoint("/gs-guide-websocket").addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
+        registry.addEndpoint("/myEndpoint").addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
     }
 
 }
